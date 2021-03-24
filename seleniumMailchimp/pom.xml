@@ -28,12 +28,5 @@
     <version>3.141.59</version>
 </dependency>
 
-<dependency>
-    <groupId>com.microsoft.edge</groupId>
-    <artifactId>msedge-selenium-tools-java</artifactId>
-    <version>[3.141.0,)</version>
-</dependency>
-
-
-	</dependencies>
+</dependencies>
 </project>
