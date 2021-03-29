@@ -1,21 +1,26 @@
 Feature: Signup to Mailchimp
 Signup for an mailchimp account.
+Skapa användare – allt går som förväntat
+Skapa användare – långt användarnamn
+Skapa användare – användare redan upptagen
+Skapa användare – e-mail saknas
 
 Scenario Outline: Signup to mailchimp
 
 Given I have used <browser> as browser
 
-Given I have entered my <email> 
+* I have entered my <email> 
 
-Given I have also entered <username>
+* I have also entered <username>
 
 And I choose a <password>
 
 When I press signup
 
-Then i should be signed in
+Then <username> should be signed in
 
 Examples:
-|browser|email|username|password|
-|'chrome'|'anna@bonnit.se'|'mayswallow'|'NYTTlosenord!1'|
-|'firefox'|'klingon@gmail.com'|'R2D2'|'NYTTlosenord!2'|
+|browser|email|username|password|username|
+|'chrome'|'email'|'longUsername'|'Losenord-NYTT1'|'username'|
+|'chrome'|'email'|'username'|'Losenord-NYTT1'|'username'|
+
