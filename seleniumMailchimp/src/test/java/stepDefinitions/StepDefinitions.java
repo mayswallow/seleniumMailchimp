@@ -19,7 +19,7 @@ import io.cucumber.java.en.When;
 
 public class StepDefinitions {
 	private WebDriver driver;
-
+    //private String email;
 
 	@Given("I have used {string} as browser")
 	public void i_have_used_as_browser(String browser) {
@@ -34,19 +34,20 @@ public class StepDefinitions {
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		Random randomGenerator = new Random(); 
 		int randomInt = randomGenerator.nextInt(1000);  
-		sendKeys(driver, By.id("email"), ("email"+ randomInt +"@gmail.com"));
-	}
-
+		sendKeys(driver, By.id("email"), ("email"+ randomInt +"@hotbrev.com"));
+		}
 
 	@Given("I have also entered {string}")
 	public void i_have_also_entered(String username)  {
-		System.out.println(username);
-		
-	if(username.equals("longUsername")) {			
+		if(username.equals("longUsername")) {			
 			username = RandomStringUtils.randomAlphabetic(101);		
 			sendKeys(driver, By.id("new_username"), (username));
 		}
-	
+		
+		else if (username.equals("mayswallow")) {
+			sendKeys(driver, By.id("new_username"), (username));
+		}
+		
 		else {
 			username = RandomStringUtils.randomAlphabetic(20);
 			sendKeys(driver, By.id("new_username"), (username));
@@ -59,7 +60,6 @@ public class StepDefinitions {
 		click(driver, By.id("onetrust-accept-btn-handler"));
 	}
 
-
 	@When("I press signup")
 	public void i_press_signup() {
 		click(driver, By.id("create-account"));
@@ -67,17 +67,27 @@ public class StepDefinitions {
 
 	@Then("{string} should be signed in")
 	public void username_should_be_signed_in(String username) {
-		String longUsername = username;
-		if(username.equals(longUsername)) {
+		if(username.equals("longUsername")) {
 			WebElement title = driver.findElement(By.className("invalid-error"));
 			assertEquals("Enter a value less than 100 characters long", title.getText());
 		}
+		
+		else if (username.equals("mayswallow")) {
+			WebElement usernameExists = driver.findElement(By.id("av-flash-block"));
+			assertEquals("Please check your entry and try again.", usernameExists.getText());
+		}
+		
+		/*else if (email.equals(".*"))  {
+			WebElement noEmail = driver.findElement(By.className("invalid-error"));
+			assertEquals("Please enter a value", noEmail.getText());
+			}*/
+		
 		else {
-			WebElement title = driver.findElement(By.tagName("h1"));
-			assertEquals("Check your email", title.getText());
+			WebElement title = driver.findElement(By.tagName("H1"));
+			System.out.println(title);
+			assertEquals("Check your email", title.getAttribute("innerHTML"));
 		}
 
-		//Thread.sleep(4000);
 		driver.quit();
 	}
 
@@ -89,7 +99,7 @@ public class StepDefinitions {
 	private void sendKeys(WebDriver driver, By by, String keys) {
 		new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(by));
 		driver.findElement(by).sendKeys(keys);
-		
+
 	}
-	
+
 }

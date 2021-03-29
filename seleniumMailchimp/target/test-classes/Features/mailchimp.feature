@@ -21,6 +21,8 @@ Then <username> should be signed in
 
 Examples:
 |browser|email|username|password|username|
-|'chrome'|'email'|'longUsername'|'Losenord-NYTT1'|'username'|
 |'chrome'|'email'|'username'|'Losenord-NYTT1'|'username'|
+|'chrome'|'email'|'longUsername'|'Losenord-NYTT1'|'username'|
+|'chrome'|'email'|'mayswallow'|'Losenord-NYTT1'|'username'|
+
 
