@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,7 +18,6 @@ import io.cucumber.java.en.When;
 
 public class StepDefinitions {
 	private WebDriver driver;
-    //private String email;
 
 	@Given("I have used {string} as browser")
 	public void i_have_used_as_browser(String browser) {
@@ -27,79 +25,77 @@ public class StepDefinitions {
 		driver = creator.createBrowser(browser);
 	}
 
-
 	@Given("I have entered my {string}")
 	public void i_have_entered_my(String email) {
-		driver.get("https://login.mailchimp.com/signup/"); // Gå till webbsidan	
+		driver.get("https://login.mailchimp.com/signup/");
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		Random randomGenerator = new Random(); 
-		int randomInt = randomGenerator.nextInt(1000);  
-		sendKeys(driver, By.id("email"), ("email"+ randomInt +"@hotbrev.com"));
+
+		if(email.equals("email")) {	
+			Random randomGenerator = new Random(); 
+			int randomInt = randomGenerator.nextInt(1000);  
+			sendKeys(driver, By.id("email"), ("epost"+ randomInt +"@hotbrev.com")); //Slumpar e-postadress
+
+		}		
+		else if (email.equals("")) {
+			sendKeys(driver, By.id("email"), ("")); //Tom input för e-post
 		}
+	}
 
 	@Given("I have also entered {string}")
 	public void i_have_also_entered(String username)  {
 		if(username.equals("longUsername")) {			
-			username = RandomStringUtils.randomAlphabetic(101);		
+			username = RandomStringUtils.randomAlphabetic(101);	//Slumpar användare med 101 tecken
 			sendKeys(driver, By.id("new_username"), (username));
 		}
-		
+
 		else if (username.equals("mayswallow")) {
-			sendKeys(driver, By.id("new_username"), (username));
+			sendKeys(driver, By.id("new_username"), (username)); //Befintlig användare
 		}
-		
+
 		else {
-			username = RandomStringUtils.randomAlphabetic(20);
-			sendKeys(driver, By.id("new_username"), (username));
+			username = RandomStringUtils.randomAlphabetic(20); //Slumpar användare med 20 tecken
+			sendKeys(driver, By.id("new_username"), (username)); 
 		}
 	}
 
-	@And("I choose a {string}")
-	public void i_choose_a(String password)  {
-		sendKeys(driver, By.id("new_password"), (password));
-		click(driver, By.id("onetrust-accept-btn-handler"));
+	@And("I choose a password")
+	public void i_choose_a_password()  {
+		sendKeys(driver, By.id("new_password"), ("Losenord-NYTT1")); //Skickar in ett fungerande lösenord
+		click(driver, By.id("onetrust-accept-btn-handler")); //Klickar på coockies consent
 	}
 
 	@When("I press signup")
 	public void i_press_signup() {
-		click(driver, By.id("create-account"));
+		click(driver, By.id("create-account")); //Klickar på sign up-knappen
 	}
 
-	@Then("{string} should be signed in")
-	public void username_should_be_signed_in(String username) {
-		if(username.equals("longUsername")) {
-			WebElement title = driver.findElement(By.className("invalid-error"));
-			assertEquals("Enter a value less than 100 characters long", title.getText());
+	@Then("{string} will be verified")
+	public void username_will_be_verified(String username) {
+		if(username.equals("username")) {
+			assertEquals("Check your email", driver.findElement(By.tagName("H1")).getAttribute("innerHTML")); //Korrekt och signed up
 		}
-		
+		else if (username.equals("longUsername")) {
+			assertEquals("Enter a value less than 100 characters long", driver.findElement(By.cssSelector(".invalid-error")).getText()); //För långt användarnamn
+		}
+
 		else if (username.equals("mayswallow")) {
-			WebElement usernameExists = driver.findElement(By.id("av-flash-block"));
-			assertEquals("Please check your entry and try again.", usernameExists.getText());
+			assertEquals("Please check your entry and try again.", driver.findElement(By.id("av-flash-block")).getText()); //Befintligt användarnamn
 		}
-		
-		/*else if (email.equals(".*"))  {
-			WebElement noEmail = driver.findElement(By.className("invalid-error"));
-			assertEquals("Please enter a value", noEmail.getText());
-			}*/
-		
+
 		else {
-			WebElement title = driver.findElement(By.tagName("H1"));
-			System.out.println(title);
-			assertEquals("Check your email", title.getAttribute("innerHTML"));
+			assertEquals("Please enter a value", driver.findElement(By.cssSelector(".invalid-error")).getText()); //Assert på det tomma e-postfältet
 		}
 
 		driver.quit();
 	}
 
 	private void click(WebDriver driver, By by) {
-		(new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(by));
+		(new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(by));
 		driver.findElement(by).click();
 	}
 
 	private void sendKeys(WebDriver driver, By by, String keys) {
 		new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(by));
 		driver.findElement(by).sendKeys(keys);
-
 	}
-
 }
