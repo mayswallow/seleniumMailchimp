@@ -13,11 +13,11 @@ And I choose a password
 
 When I press signup
 
-Then "<username>" will be verified
+Then "<username>" will be controlled
 
 Examples:
 |browser|email|username|
 |edge|email|username|
 |firefox|email|longUsername|
 |chrome|email|mayswallow|
-|chrome||whatever|
+|chrome||somethingelse|

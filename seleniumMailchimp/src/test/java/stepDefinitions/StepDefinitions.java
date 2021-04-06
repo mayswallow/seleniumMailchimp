@@ -66,37 +66,45 @@ public class StepDefinitions {
 
 	@When("I press signup")
 	public void i_press_signup() {
-		click(driver, By.id("create-account")); //Klickar på sign up-knappen
+		click(driver, By.id("create-account")); //Klickar på sign up
 	}
 
-	@Then("{string} will be verified")
-	public void username_will_be_verified(String username) {
+	@Then("{string} will be controlled")
+	public void username_will_be_controlled(String username) {
+		String expected = "";
+		String actual = "";
+		
 		if(username.equals("username")) {
-			assertEquals("Check your email", driver.findElement(By.tagName("H1")).getAttribute("innerHTML")); //Korrekt och signed up
+			expected = "Check your email";
+			actual = driver.findElement(By.tagName("H1")).getAttribute("innerHTML"); //Korrekt och signed up
 		}
 
 		else if (username.equals("longUsername")) {
-			assertEquals("Enter a value less than 100 characters long", driver.findElement(By.cssSelector(".invalid-error")).getText()); //För långt användarnamn
+			expected = "Enter a value less than 100 characters long";
+			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); //För långt användarnamn
 		}
 
 		else if (username.equals("mayswallow")) {
-			assertEquals("Another user with this username already exists. Maybe it's your evil twin. Spooky.", driver.findElement(By.cssSelector(".invalid-error")).getText()); //Befintligt användarnamn
+			expected = "Another user with this username already exists. Maybe it's your evil twin. Spooky.";
+			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); //Befintligt användarnamn
 		}
 
 		else {
-			assertEquals("Please enter a value", driver.findElement(By.cssSelector(".invalid-error")).getText()); //Assert på det tomma e-postfältet
+			expected = "Please enter a value";
+			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); //Assert på det tomma e-postfältet
 		}
-
+		
+		assertEquals(expected, actual);
 		driver.quit();
 	}
 
 	private void click(WebDriver driver, By by) {
-		(new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(by)); //Metod som väntar in valt element tills det går att klicka på.
+		(new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(by)); //Väntar in valt element (5 sek) tills det går att klicka på.
 		driver.findElement(by).click();
 	}
 
 	private void sendKeys(WebDriver driver, By by, String keys) {
-		new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(by)); //Metod som väntar in valt element tills du kan skicka in ett värde.
+		new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(by)); //Väntar in valt element (5 sek) tills du kan skicka in ett värde.
 		driver.findElement(by).sendKeys(keys);
 	}
 }
