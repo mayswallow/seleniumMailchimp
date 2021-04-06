@@ -13,7 +13,7 @@ public class DriveCreator {
 		if (browser.equals("chrome")) {
 			System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\Selenium\\chromedriver.exe");
 			driver = new ChromeDriver(); // Starta Chrome
-			} 
+		} 
 		else if (browser.equals("edge")){
 			System.setProperty("webdriver.edge.driver", "C:\\Program Files\\Selenium\\msedgedriver.exe");
 			driver = new EdgeDriver(); // Starta Edge
@@ -26,6 +26,5 @@ public class DriveCreator {
 		return driver;
 
 	}
-
 }
 

@@ -32,10 +32,10 @@ public class StepDefinitions {
 
 		if(email.equals("email")) {	
 			Random randomGenerator = new Random(); 
-			int randomInt = randomGenerator.nextInt(1000);  
+			int randomInt = randomGenerator.nextInt(1000); //Random siffra innan @
 			sendKeys(driver, By.id("email"), ("epost"+ randomInt +"@hotbrev.com")); //Slumpar e-postadress
+		}	
 
-		}		
 		else if (email.equals("")) {
 			sendKeys(driver, By.id("email"), ("")); //Tom input för e-post
 		}
@@ -74,12 +74,13 @@ public class StepDefinitions {
 		if(username.equals("username")) {
 			assertEquals("Check your email", driver.findElement(By.tagName("H1")).getAttribute("innerHTML")); //Korrekt och signed up
 		}
+
 		else if (username.equals("longUsername")) {
 			assertEquals("Enter a value less than 100 characters long", driver.findElement(By.cssSelector(".invalid-error")).getText()); //För långt användarnamn
 		}
 
 		else if (username.equals("mayswallow")) {
-			assertEquals("Please check your entry and try again.", driver.findElement(By.id("av-flash-block")).getText()); //Befintligt användarnamn
+			assertEquals("Another user with this username already exists. Maybe it's your evil twin. Spooky.", driver.findElement(By.cssSelector(".invalid-error")).getText()); //Befintligt användarnamn
 		}
 
 		else {
@@ -90,12 +91,12 @@ public class StepDefinitions {
 	}
 
 	private void click(WebDriver driver, By by) {
-		(new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(by));
+		(new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(by)); //Metod som väntar in valt element tills det går att klicka på.
 		driver.findElement(by).click();
 	}
 
 	private void sendKeys(WebDriver driver, By by, String keys) {
-		new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(by));
+		new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(by)); //Metod som väntar in valt element tills du kan skicka in ett värde.
 		driver.findElement(by).sendKeys(keys);
 	}
 }

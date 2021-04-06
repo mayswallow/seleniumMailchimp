@@ -1,4 +1,5 @@
 Feature: Signup to Mailchimp
+Mailchimp signup tests. The examples tries regular username, too long username, existing username and empty e-mail input.
 
 Scenario Outline: Signup to mailchimp
 
@@ -16,7 +17,7 @@ Then "<username>" will be verified
 
 Examples:
 |browser|email|username|
-|chrome|email|username|
-|chrome|email|longUsername|
+|edge|email|username|
+|firefox|email|longUsername|
 |chrome|email|mayswallow|
-|chrome||username1|
+|chrome||whatever|
