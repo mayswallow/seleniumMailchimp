@@ -74,24 +74,24 @@ public class StepDefinitions {
 		String expected = "";
 		String actual = "";
 		
-		if(username.equals("username")) {
+		if(username.equals("username")) { //Korrekt och signed up
 			expected = "Check your email";
-			actual = driver.findElement(By.tagName("H1")).getAttribute("innerHTML"); //Korrekt och signed up
+			actual = driver.findElement(By.tagName("H1")).getAttribute("innerHTML"); 
 		}
 
-		else if (username.equals("longUsername")) {
+		else if (username.equals("longUsername")) { //För långt användarnamn
 			expected = "Enter a value less than 100 characters long";
-			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); //För långt användarnamn
+			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); 
 		}
 
-		else if (username.equals("mayswallow")) {
+		else if (username.equals("mayswallow")) { //Befintligt användarnamn
 			expected = "Another user with this username already exists. Maybe it's your evil twin. Spooky.";
-			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); //Befintligt användarnamn
+			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); 
 		}
 
-		else {
+		else { //Tomt e-postfält
 			expected = "Please enter a value";
-			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); //Assert på det tomma e-postfältet
+			actual = driver.findElement(By.cssSelector(".invalid-error")).getText(); 
 		}
 		
 		assertEquals(expected, actual);

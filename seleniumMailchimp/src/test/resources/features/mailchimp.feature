@@ -1,5 +1,5 @@
 Feature: Signup to Mailchimp
-Mailchimp signup tests. The examples tries regular username, too long username, existing username and empty e-mail input.
+Examples for regular username, too long username, existing username and empty e-mail input.
 
 Scenario Outline: Signup to mailchimp
 
