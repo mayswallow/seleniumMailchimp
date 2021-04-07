@@ -13,7 +13,7 @@ And I choose a password
 
 When I press signup
 
-Then "<username>" will be controlled
+Then "<username>" will be verified
 
 Examples:
 |browser|email|username|

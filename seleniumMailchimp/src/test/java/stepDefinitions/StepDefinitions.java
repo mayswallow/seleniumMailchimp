@@ -69,8 +69,8 @@ public class StepDefinitions {
 		click(driver, By.id("create-account")); //Klickar på sign up
 	}
 
-	@Then("{string} will be controlled")
-	public void username_will_be_controlled(String username) {
+	@Then("{string} will be verified")
+	public void username_will_be_verified(String username) {
 		String expected = "";
 		String actual = "";
 		
